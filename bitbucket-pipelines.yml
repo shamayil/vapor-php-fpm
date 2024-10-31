@@ -1,0 +1,54 @@
+pipelines:
+  branches:
+    master:
+      - step:
+          name: Login to aws ecr
+          image: amazon/aws-cli
+          services:
+            - docker
+          script:
+            # dockerhub login
+            - docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PWD
+            - cp /root/.docker/config.json .
+          artifacts:
+            - config.json
+      #      - step:
+      #          name: Build & Push php 7.2 image
+      #          services:
+      #            - docker
+      #          script:
+      #            - mkdir /root/.docker && mv config.json /root/.docker/
+      #            - docker build -t $DOCKERHUB_USERNAME/vapor-php-fpm:7.2-cli -f ./php:7.2-cli/Dockerfile .
+      #            - docker push $DOCKERHUB_USERNAME/vapor-php-fpm:7.2-cli
+      #      - step:
+      #          name: Build & Push php 7.4 image
+      #          services:
+      #            - docker
+      #          script:
+      #            - mkdir /root/.docker && mv config.json /root/.docker/
+      #            - docker build -t $DOCKERHUB_USERNAME/vapor-php-fpm:7.4-cli -f ./php:7.4-cli/Dockerfile .
+      #            - docker push $DOCKERHUB_USERNAME/vapor-php-fpm:7.4-cli
+      #      - step:
+      #          name: Build & Push php 8.0 image
+      #          services:
+      #            - docker
+      #          script:
+      #            - mkdir /root/.docker && mv config.json /root/.docker/
+      #            - docker build -t $DOCKERHUB_USERNAME/vapor-php-fpm:8.0-cli -f ./php:8.0-cli/Dockerfile .
+      #            - docker push $DOCKERHUB_USERNAME/vapor-php-fpm:8.0-cli
+      #      - step:
+      #          name: Build & Push php 8.1 image
+      #          services:
+      #            - docker
+      #          script:
+      #            - mkdir /root/.docker && mv config.json /root/.docker/
+      #            - docker build -t $DOCKERHUB_USERNAME/vapor-php-fpm:8.1-cli -f ./php:8.1-cli/Dockerfile .
+      #            - docker push $DOCKERHUB_USERNAME/vapor-php-fpm:8.1-cli
+      - step:
+          name: Build & Push php 8.2.1 image
+          services:
+            - docker
+          script:
+            - mkdir /root/.docker && mv config.json /root/.docker/
+            - docker build -t $DOCKERHUB_USERNAME/vapor-php-fpm:8.2.1-cli -f ./php:8.2.1-cli/Dockerfile .
+            - docker push $DOCKERHUB_USERNAME/vapor-php-fpm:8.2.1-cli
